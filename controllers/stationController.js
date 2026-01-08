@@ -10,6 +10,19 @@ export const getStations = async (req, res) => {
     }
 };
 
+export const updateStation = async (req, res) => {
+    try {
+        const updatedStation = await station.findByIdAndUpdate(
+            req.params.id,       
+            { $set: req.body },  
+            { new: true }        
+        );
+        res.status(200).json(updatedStation);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+};
+
 
 export const addStation = async (req, res) => {
     try {
