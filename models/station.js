@@ -8,7 +8,7 @@ const stationSchema = new mongoose.Schema({
     language: { 
         type: String, 
         required: true,
-        enum: ['Sinhala', 'Tamil', 'English']
+        enum: ['Sinhala', 'Tamil', 'English', 'Multi']
     },
 });
 
