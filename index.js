@@ -2,9 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-
 import connectDB from './config/db.js';
-
 import UserRouter from './routes/userRouter.js';
 import StationRouter from './routes/stations.js';
 
@@ -18,6 +16,9 @@ app.use(bodyParser.json());
 
 connectDB();
 
+app.get('/health', (req, res) => {
+  res.status(200).send('Server is alive!');
+})
 app.use('/api', UserRouter); 
 app.use('/api/stations', StationRouter);
 
