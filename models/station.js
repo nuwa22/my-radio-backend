@@ -10,6 +10,11 @@ const stationSchema = new mongoose.Schema({
         required: true,
         enum: ['Sinhala', 'Tamil', 'English', 'Multi']
     },
-});
+ 
+    reports: { 
+        type: Number, 
+        default: 0 
+    }
+}, { timestamps: true });
 
 export default mongoose.model('station', stationSchema);

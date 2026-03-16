@@ -7,9 +7,14 @@ import UserRouter from './routes/userRouter.js';
 import StationRouter from './routes/stations.js';
 import proxyRouter from './routes/radioProxy.js';
 
+import http from 'http';
+import { Server } from 'socket.io';
 
 dotenv.config();
 const app = express();
+
+const server = http.createServer(app);
+const io = new Server(server, { cors: { origin: "*" } });
 
 app.use(cors());
 app.use(bodyParser.json());
@@ -24,6 +29,17 @@ app.use('/api', UserRouter);
 app.use('/api/stations', StationRouter);
 app.use('/api/stream', proxyRouter);
 
+let currentListeners = 0;
+
+io.on('connection', (socket) => {
+  currentListeners++; 
+  io.emit('listeners_count', currentListeners); 
+
+  socket.on('disconnect', () => {
+    currentListeners--; 
+    io.emit('listeners_count', currentListeners);
+  });
+});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
