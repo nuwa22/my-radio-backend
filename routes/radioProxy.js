@@ -141,5 +141,37 @@ proxyRouter.get('/shreefm', async (req, res) => {
     }
 });
 
+proxyRouter.get('/efm', async (req, res) => {
+    try {
+        const url = "http://207.148.74.192:7860/stream.mp3";
+        const response = await axios({
+            method: 'get',
+            url: url,
+            responseType: 'stream'
+        });
+        res.set('Content-Type', 'audio/mpeg');
+        response.data.pipe(res);
+    } catch (error) {
+        console.error("E FM Proxy Error:", error.message);
+        res.status(500).send("Stream Error");
+    }
+});
+
+proxyRouter.get('/ranfm', async (req, res) => {
+    try {
+        const url = "http://207.148.74.192:7860/ran.mp3";
+        const response = await axios({
+            method: 'get',
+            url: url,
+            responseType: 'stream'
+        });
+        res.set('Content-Type', 'audio/mpeg');
+        response.data.pipe(res);
+    } catch (error) {
+        console.error("Ran Fm Proxy Error:", error.message);
+        res.status(500).send("Stream Error");
+    }
+});
+
 
 export default proxyRouter;
