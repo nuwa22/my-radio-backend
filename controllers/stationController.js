@@ -86,3 +86,16 @@ export const getReportedStations = async (req, res) => {
         res.status(500).json(err);
     }
 };
+
+// Database එකේ ඇති රටවල් ලැයිස්තුව පමණක් ලබා ගැනීම
+export const getAvailableCountries = async (req, res) => {
+    try {
+        // distinct පාවිච්චි කරලා unique රටවල් ටික විතරක් ගන්නවා
+        const countries = await station.distinct("country");
+        // null හෝ හිස් අගයන් අයින් කරලා පිරිසිදු ලිස්ට් එකක් යවනවා
+        const filteredCountries = countries.filter(Boolean).sort();
+        res.json(filteredCountries);
+    } catch (err) {
+        res.status(500).json({ message: "Error fetching countries", error: err });
+    }
+};
