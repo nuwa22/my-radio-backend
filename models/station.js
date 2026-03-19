@@ -10,7 +10,11 @@ const stationSchema = new mongoose.Schema({
         required: true,
         enum: ['Sinhala', 'Tamil', 'English', 'Multi']
     },
- 
+    country: { 
+        type: String, 
+        required: true,
+        default: 'Sri Lanka'
+    },
     reports: { 
         type: Number, 
         default: 0 

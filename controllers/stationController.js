@@ -1,9 +1,24 @@
 import station from "../models/station.js";
 
-
 export const getStations = async (req, res) => {
     try {
-        const stations = await station.find();
+        // Get country from query parameters (e.g., /stations?country=India)
+        const countryFilter = req.query.country;
+
+        let query = {};
+
+        // Logic for filtering by country
+        if (countryFilter && countryFilter !== "All") {
+            // Filter by specific country if provided and not "All"
+            query = { country: countryFilter };
+        } 
+        else if (!countryFilter) {
+            // Default to Sri Lanka if no country is specified in the request
+            query = { country: "Sri Lanka" };
+        }
+        // If countryFilter is "All", query remains {} to fetch everything
+
+        const stations = await station.find(query).sort({ name: 1 });
         res.json(stations);
     } catch (err) {
         res.status(500).json(err);
@@ -23,7 +38,6 @@ export const updateStation = async (req, res) => {
     }
 };
 
-
 export const addStation = async (req, res) => {
     try {
         const newStation = new station(req.body);
@@ -33,7 +47,6 @@ export const addStation = async (req, res) => {
         res.status(500).json(err);
     }
 };
-
 
 export const deleteStation = async (req, res) => {
     try {
@@ -58,7 +71,7 @@ export const reportStation = async (req, res) => {
 
         res.status(200).json({ 
             message: "Report received successfully",
-            currentReports: updatedStation.reports // දැනට තියෙන මුළු රිපෝට් ගාණ
+            currentReports: updatedStation.reports 
         });
     } catch (err) {
         res.status(500).json(err);
