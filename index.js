@@ -6,6 +6,7 @@ import connectDB from './config/db.js';
 import UserRouter from './routes/userRouter.js';
 import StationRouter from './routes/stations.js';
 import proxyRouter from './routes/radioProxy.js';
+import { semanticSearch } from './controllers/stationController.js';
 
 import http from 'http';
 import { Server } from 'socket.io';
@@ -27,6 +28,7 @@ app.get('/health', (req, res) => {
 })
 app.use('/api', UserRouter); 
 app.use('/api/stations', StationRouter);
+app.get('/api/search/semantic', semanticSearch);
 app.use('/api/stream', proxyRouter);
 
 let currentListeners = 0;

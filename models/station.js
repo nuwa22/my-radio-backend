@@ -15,6 +15,18 @@ const stationSchema = new mongoose.Schema({
         required: true,
         default: 'Sri Lanka'
     },
+    genres: {
+        type: [String],
+        default: []
+    },
+    moods: {
+        type: [String],
+        default: []
+    },
+    eras: {
+        type: [String],
+        default: []
+    },
     reports: { 
         type: Number, 
         default: 0 
